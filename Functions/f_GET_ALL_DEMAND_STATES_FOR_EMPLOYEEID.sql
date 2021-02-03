@@ -1,0 +1,17 @@
+ --Function that brings the number of requests assigned to our employee grouped by ticket state.
+
+CREATE FUNCTION f_GET_ALL_DEMAND_STATES_FOR_EMPLOYEEID (@EMPLOYEEID AS INT)
+RETURNS TABLE
+AS
+RETURN
+(
+	SELECT 
+		DS.STATE, 
+		COUNT(*) TOTAL_NUM
+	FROM 
+		[dbo].[DEMAND] D
+	INNER JOIN [dbo].[DEMAND_STATE] DS 
+		ON D.DEMAND_STATEID = DS.ID 
+	WHERE D.[EMPLOYEEID] = @EMPLOYEEID
+	GROUP BY DS.STATE
+ );
